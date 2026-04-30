@@ -1,6 +1,6 @@
 if not SERVER then return end
 
-local ROBOT_MODEL = "models/doggyclayde/ponco/sexbomb.mdl"
+local ROBOT_MODEL = "models/doggyclayde/ponco/ponco.mdl"
 
 local function IsRobotModel(ent)
     if not IsValid(ent) then return false end
