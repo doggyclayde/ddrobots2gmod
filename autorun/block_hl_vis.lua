@@ -1,10 +1,5 @@
 if not SERVER then return end
 
---------------------------------------------------------------------
--- CONFIG
---------------------------------------------------------------------
-
--- Change this if your robot playermodel path is different
 local ROBOT_MODEL = "models/doggyclayde/ponco/sexbomb.mdl"
 
 local function IsRobotModel(ent)
@@ -21,10 +16,6 @@ local function ApplyRobotBlood(ent)
     end
 end
 
---------------------------------------------------------------------
--- FOR PLAYERMODELS (when spawning as the robot)
---------------------------------------------------------------------
-
 hook.Add("PlayerSpawn", "RobotPlayer_SetBlood", function(ply)
     timer.Simple(0, function()
         if IsValid(ply) then
@@ -33,10 +24,8 @@ hook.Add("PlayerSpawn", "RobotPlayer_SetBlood", function(ply)
     end)
 end)
 
---------------------------------------------------------------------
--- FOR RAGMOD CONTROLLABLE RAGDOLLS (fake / controllable ones)
---------------------------------------------------------------------
-
+-- This has RagMod support
+-- Hate to say it but this won't be included in the final update.
 hook.Add("OnEntityCreated", "RobotRagdoll_SetBlood", function(ent)
     if not IsValid(ent) then return end
 
@@ -56,10 +45,6 @@ hook.Add("OnEntityCreated", "RobotRagdoll_SetBlood", function(ent)
         end
     end)
 end)
-
---------------------------------------------------------------------
--- FOR SERVER-SIDE DEATH RAGDOLLS (when the player actually dies)
---------------------------------------------------------------------
 
 hook.Add("PlayerDeath", "RobotDeathRagdoll_SetBlood", function(victim, inflictor, attacker)
     if not IsValid(victim) or not IsRobotModel(victim) then return end
@@ -85,10 +70,6 @@ hook.Add("CreateEntityRagdoll", "RobotCreateRagdoll_SetBlood", function(owner, r
         end)
     end
 end)
-
---------------------------------------------------------------------
--- SAFETY: Keep metal blood color on damage
---------------------------------------------------------------------
 
 hook.Add("EntityTakeDamage", "Robot_KeepMetalBlood", function(ent)
     ApplyRobotBlood(ent)
