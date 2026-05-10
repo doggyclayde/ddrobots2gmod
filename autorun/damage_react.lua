@@ -62,16 +62,6 @@ hook.Add("EntityTakeDamage", "Ponco_HurtVisuals", function(target, dmginfo)
     end)
 end)
 
-hook.Add("PlayerDeath", "Ponco_DeathVisuals", function(victim, inflictor, attacker)
-    if not IsPonco(victim) then return end
-    -- force material cache flush
-    for _, ent in ipairs(ents.FindByClass("prop_ragdoll")) do
-        if IsPonco(ent) then
-            ent:SetMaterial("")  -- clears override, forces re-bind
-        end
-    end
-    ...
-end)
 -- Death: cancel hurt timer, set dead state on player entity
 hook.Add("PlayerDeath", "Ponco_DeathVisuals", function(victim, inflictor, attacker)
     if not IsPonco(victim) then return end
