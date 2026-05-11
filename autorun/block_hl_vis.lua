@@ -10,7 +10,6 @@ end
 local function ApplyRobotBlood(ent)
     if not IsRobotModel(ent) then return end
 
-    -- Force mechanical/robot blood color (no red blood particles)
     if ent:GetBloodColor() ~= BLOOD_COLOR_MECH then
         ent:SetBloodColor(BLOOD_COLOR_MECH)
     end

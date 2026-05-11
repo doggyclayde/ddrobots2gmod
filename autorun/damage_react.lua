@@ -2,9 +2,9 @@ if not SERVER then return end
 
 local ROBOT_MODEL   = "models/doggyclayde/ponco/ponco.mdl"
 
-local VEC_NORMAL    = Vector(0, 1, 1)   -- cyan: default state
-local VEC_DAMAGE    = Vector(0, 0.2, 1) -- blue: hurt state
-local VEC_DEAD      = Vector(1, 1, 1)   -- white: lets grey base texture show, no cyan tint
+local VEC_NORMAL    = Vector(0, 1, 1)   
+local VEC_DAMAGE    = Vector(0, 0.2, 1) 
+local VEC_DEAD      = Vector(1, 1, 1)   
 
 local FACE_DEFAULT  = 0
 local FACE_CRY      = 1
@@ -38,7 +38,7 @@ local function SetDeadState(ent)
     SetRobotState(ent, FACE_SHUTDOWN, VEC_DEAD, VEC_DEAD)
 end
 
--- Clean state on spawn
+-- fixes the delay bug
 hook.Add("PlayerSpawn", "Ponco_ResetState", function(ply)
     timer.Simple(0, function()
         if not IsPonco(ply) then return end
@@ -46,7 +46,6 @@ hook.Add("PlayerSpawn", "Ponco_ResetState", function(ply)
     end)
 end)
 
--- Hurt reaction (non-lethal only)
 hook.Add("EntityTakeDamage", "Ponco_HurtVisuals", function(target, dmginfo)
     if not target:IsPlayer() then return end
     if not IsPonco(target) then return end
@@ -62,7 +61,6 @@ hook.Add("EntityTakeDamage", "Ponco_HurtVisuals", function(target, dmginfo)
     end)
 end)
 
--- Death: cancel hurt timer, set dead state on player entity
 hook.Add("PlayerDeath", "Ponco_DeathVisuals", function(victim, inflictor, attacker)
     if not IsPonco(victim) then return end
 
@@ -72,7 +70,7 @@ hook.Add("PlayerDeath", "Ponco_DeathVisuals", function(victim, inflictor, attack
     SetDeadState(victim)
 end)
 
--- Apply dead face to ragdoll once it exists (works for both GMod default and RagMod)
+-- I might replace this check soon because I am an idiot.
 hook.Add("OnEntityCreated", "Ponco_RagdollDeadState", function(ent)
     timer.Simple(0.2, function()
         if not IsValid(ent) then return end
